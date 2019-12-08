@@ -46,6 +46,10 @@ WHERE pr.PrescriptionName = "Pandol";
 specialty’s.
 */
 
+CREATE VIEW Doctor_Specialities
+AS
+SELECT 
+
 
 /*Number 5: Modify the view created in Q4 to show the First Name and Last name of all
 doctors and their specialties ALSO include doctors who DO NOT have any
