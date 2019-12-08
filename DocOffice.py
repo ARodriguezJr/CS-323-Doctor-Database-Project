@@ -75,10 +75,10 @@ populatePatients = """INSERT INTO Patients
 
 populateVisits = """INSERT INTO Visits
   VALUES
-    ('FY2927', 'RO3283', 2019-03-10),
-    ('KS8476', 'RO3283', 2019-04-17),
-    ('JS9865', 'TO3621', 2019-10-02),
-    ('RT3475', 'AR3456', 2019-11-23)"""
+    ('FY2927', 'RO3283', '2019-03-10'),
+    ('KS8476', 'RO3283', '2019-04-17'),
+    ('JS9865', 'TO3621', '2019-10-02'),
+    ('RT3475', 'AR3456', '2019-11-23')"""
 
 populatePrescriptions = """INSERT INTO Prescriptions
   VALUES
@@ -87,10 +87,18 @@ populatePrescriptions = """INSERT INTO Prescriptions
     ('JS9865', 'TO3621', 'Panadol'),
     ('RT3475', 'AR3456', 'Panadol')"""
 
+populateTests = """INSERT INTO Tests
+  VALUES
+    ('FY2927', 'RO3283', 'X-Ray'),
+    ('KS8476', 'RO3283', 'Endoscopy'),
+    ('JS9865', 'TO3621', 'MRI'),
+    ('RT3475', 'AR3456', 'CAT Scan')"""
+
 cursor.execute(populateDoctors)
 cursor.execute(populatePatients)
 cursor.execute(populateVisits)
 cursor.execute(populatePrescriptions)
+cursor.execute(populateTests)
 
 conn.commit()
 conn.close()
