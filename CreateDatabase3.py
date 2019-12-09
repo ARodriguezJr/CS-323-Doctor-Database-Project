@@ -13,29 +13,29 @@ cursor.execute('USE DocOffice')
 
 
 # Queries for creating table
-createDoctor = """CREATE TABLE Doctors(
+createDoctor = """CREATE TABLE Doctor(
   DoctorID              VARCHAR(6)          NOT NULL,
   MedicalDegrees    VARCHAR(50)                 ,
   PersonID          VARCHAR(6)          NOT NULL,
-  PRIMARY KEY (D_id))"""
+  PRIMARY KEY (DoctorID))"""
 
 createPatient = """CREATE TABLE Patient(
   PatientID       VARCHAR(6)        NOT NULL,
   PhoneNumber     VARCHAR(10)       NOT NULL,
   DOB             DATE              NOT NULL,
   PersonID        VARCHAR(6)        NOT NULL,
-  PRIMARY KEY (P_id),
+  PRIMARY KEY (PatientID),
   FOREIGN KEY (PersonID) REFERENCES Person(PersonID))"""
 
-createPatientVisit = """CREATE TABLE Visits(
+createPatientVisit = """CREATE TABLE PatientVisit(
   VisitID         VARCHAR(6)         NOT NULL,
   PatientID       VARCHAR(6)         NOT NULL,
   DoctorID        VARCHAR(6)         NOT NULL,
   VisitDate       DATE               NOT NULL,
   DocNote         VARCHAR(140),
   PRIMARY KEY (VisitID),
-  FOREIGN KEY (PatientID) REFERENCES Patients(PatientID),
-  FOREIGN KEY (DoctorID) REFERENCES Doctors(DoctorID))"""
+  FOREIGN KEY (PatientID) REFERENCES Patient(PatientID),
+  FOREIGN KEY (DoctorID) REFERENCES Doctor(DoctorID))"""
 
 createPrescription = """CREATE TABLE Prescription(
   PrescriptionID        VARCHAR(6)        NOT NULL,
@@ -86,32 +86,33 @@ createPerson = """CREATE TABLE Person(
 
 
 # Creates tables in database
+cursor.execute(createPerson)
 cursor.execute(createDoctor)
 cursor.execute(createPatient)
-cursor.execute(createPatientVisit)
+#cursor.execute(createPatientVisit)
 cursor.execute(createPrescription)
 cursor.execute(createTest)
 cursor.execute(createPatientVisit)
-cursor.execute(createDoctorSpecialty)
 cursor.execute(createSpecialty)
+cursor.execute(createDoctorSpecialty)
 cursor.execute(createPVisitPrescription)
-cursor.execute(createPerson)
+
 
 # Populate tables with dummy data
-populateDoctor = """INSERT INTO Doctors
+populateDoctor = """INSERT INTO Doctor
   VALUES
-    ('RO3283', 'Pediactrics', '3283'),
-    ('AL3456', 'Neurology', '3456')"""
+    ('RO3283', 'Pediactrics', 'RO3283'),
+    ('AR3456', 'Neurology', 'AR3456')"""
 
 populatePatient = """INSERT INTO Patient
   VALUES
-    ('J67L', '5626478976', 1959-03-10, '1234'),
-    ('D33M', '3235987511', 1929-09-10, '4567')"""
+    ('RM1234', '5626478976', '1959-03-10', 'RM1234'),
+    ('MR4567', '3235987511', '1929-09-10', 'MR4567')"""
 
-populatePatientVisit = """INSERT INTO Visits
+populatePatientVisit = """INSERT INTO PatientVisit
   VALUES
-    ('0000', 'J67L', 'RO3283', 2019-04-12, 'In great condition'),
-    ('3333', 'D33M', 'AL3456', 2019-04-20, 'Great')"""
+    ('0000', 'RM1234', 'RO3283', '2019-04-12', 'In great condition'),
+    ('3333', 'MR4567', 'AR3456', '2019-04-20', 'Great')"""
 
 populatePrescription = """INSERT INTO Prescription
   VALUES
@@ -130,13 +131,13 @@ populatePVisitTest = """INSERT INTO PVisitPrescription
 
 populatePVisitPrescription = """INSERT INTO PVisitPrescription
   VALUES
-    ('0000', 'Rad'),
-    ('3333', 'Alt')"""
+    ('0000', 'Pandol'),
+    ('3333', 'Percocet')"""
 
 populateDoctorSpecialty = """INSERT INTO DoctorSpecialty
   VALUES
     ('RO3283', 'EYES'),
-    ('AL3456', 'MOUTH')"""
+    ('AR3456', 'MOUTH')"""
 
 populateSpecialty = """INSERT INTO Specialty
   VALUES
@@ -145,21 +146,22 @@ populateSpecialty = """INSERT INTO Specialty
 
 populatePerson = """INSERT INTO Person
   VALUES
-    ('3283', 'Robert', 'Belkin', '800 State College', 'Fullerton', '90643', '4567345678', '328332830'),
-    ('3456', 'Alan', 'Rickman', '410 El Rancho', 'La Habra', '90631', '6264567007', '123456789'),
-    ('1234', 'Robert', 'Morris', '320 Shady Lane', 'Yorba Linda', '90123', '5626478976', '234567890'),
-    ('4567', 'Martin', 'Rodriguez', '540 Painter Ave', 'Whittier', '90893', '3235987511', '345678901')"""
+    ('RO3283', 'Robert', 'Belkin', '800 State College', 'Fullerton', 'California', '90643', '4567345678', '328332830'),
+    ('AR3456', 'Alan', 'Rickman', '410 El Rancho', 'La Habra', 'California', '90631', '6264567007', '123456789'),
+    ('RM1234', 'Robert', 'Morris', '320 Shady Lane', 'Yorba Linda', 'California', '90123', '5626478976', '234567890'),
+    ('MR4567', 'Martin', 'Rodriguez', '540 Painter Ave', 'Whittier', 'California', '90893', '3235987511', '345678901')"""
 
+cursor.execute(populatePerson)
 cursor.execute(populateDoctor)
 cursor.execute(populatePatient)
-cursor.execute(populatePatientVisit)
+#cursor.execute(populatePatientVisit)
 cursor.execute(populatePrescription)
 cursor.execute(populateTest)
 cursor.execute(populatePatientVisit)
-cursor.execute(populateDoctorSpecialty)
 cursor.execute(populateSpecialty)
+cursor.execute(populateDoctorSpecialty)
 cursor.execute(populatePVisitPrescription)
-cursor.execute(populatePerson)
+
 
 
 

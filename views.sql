@@ -18,7 +18,7 @@ INNER JOIN PatientVisit pv
 ON pv.PatientID = pt.PatientID
 WHERE pv.DoctorID IN (SELECT d.DoctorID FROM Doctor AS d
                         INNER JOIN Person AS pr ON pr.PersonID = d.PersonID
-                        WHERE pr.FirstName = "ROB" AND pr.LastName = "BELKIN")
+                        WHERE pr.FirstName = "Rob" AND pr.LastName = "Belkin")
 
 
 
