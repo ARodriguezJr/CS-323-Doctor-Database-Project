@@ -1,3 +1,6 @@
+DELIMITER //
+
+CREATE PROCEDURE FullertonPrescriptions()
 SELECT COUNT(*)
 FROM Person AS p
 INNER JOIN Patient AS pt
@@ -10,3 +13,6 @@ ON pvp.VisitID = pv.VisitID
 INNER JOIN Prescription AS pres
 ON pres.PrescriptionID = pvp.PrescriptionID
 WHERE PrescriptionName = 'Pandol'
+//
+
+CALL FullertonPrescription() //
