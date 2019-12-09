@@ -150,7 +150,7 @@ populatePerson = """INSERT INTO Person
     ('RO3283', 'Rob', 'Belkin', '800 State College', 'Fullerton', 'California', '90643', '4567345678', '328332830'),
     ('AR3456', 'Alan', 'Rickman', '410 El Rancho', 'La Habra', 'California', '90631', '6264567007', '123456789'),
     ('RM1234', 'Robert', 'Morris', '320 Shady Lane', 'Yorba Linda', 'California', '90123', '5626478976', '234567890'),
-    ('MR4567', 'Martin', 'Rodriguez', '540 Painter Ave', 'Whittier', 'California', '90893', '3235987511', '345678901'),
+    ('MR4567', 'Martin', 'Rodriguez', '540 Painter Ave', 'Fullerton', 'California', '90893', '3235987511', '345678901'),
     ('WF3421', 'Winston', 'Franks','310 West Ave', 'Whittier', 'California', '90324', '4356758567', '569222856')"""
 
 cursor.execute(populatePerson)
