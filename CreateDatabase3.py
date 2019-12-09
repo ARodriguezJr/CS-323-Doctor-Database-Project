@@ -102,7 +102,8 @@ cursor.execute(createPVisitPrescription)
 populateDoctor = """INSERT INTO Doctor
   VALUES
     ('RO3283', 'Pediactrics', 'RO3283'),
-    ('AR3456', 'Neurology', 'AR3456')"""
+    ('AR3456', 'Neurology', 'AR3456'),
+    ('WF3421', '', 'WF3421')"""
 
 populatePatient = """INSERT INTO Patient
   VALUES
@@ -116,23 +117,23 @@ populatePatientVisit = """INSERT INTO PatientVisit
 
 populatePrescription = """INSERT INTO Prescription
   VALUES
-    ('Rad', 'Strong'),
-    ('Alt', 'Weak')"""
+    ('Rad', 'Percocet'),
+    ('Alt', 'Pandol')"""
 
 populateTest = """INSERT INTO Test
   VALUES
     ('A12', 'Rad'),
     ('K27', 'Alt')"""
 
-populatePVisitTest = """INSERT INTO PVisitPrescription
+populatePVisitTest = """INSERT INTO PVisitTest
   VALUES
     ('0000', 'A12'),
     ('3333', 'K27')"""
 
 populatePVisitPrescription = """INSERT INTO PVisitPrescription
   VALUES
-    ('0000', 'Pandol'),
-    ('3333', 'Percocet')"""
+    ('0000', 'Rad'),
+    ('3333', 'Alt')"""
 
 populateDoctorSpecialty = """INSERT INTO DoctorSpecialty
   VALUES
@@ -149,7 +150,8 @@ populatePerson = """INSERT INTO Person
     ('RO3283', 'Robert', 'Belkin', '800 State College', 'Fullerton', 'California', '90643', '4567345678', '328332830'),
     ('AR3456', 'Alan', 'Rickman', '410 El Rancho', 'La Habra', 'California', '90631', '6264567007', '123456789'),
     ('RM1234', 'Robert', 'Morris', '320 Shady Lane', 'Yorba Linda', 'California', '90123', '5626478976', '234567890'),
-    ('MR4567', 'Martin', 'Rodriguez', '540 Painter Ave', 'Whittier', 'California', '90893', '3235987511', '345678901')"""
+    ('MR4567', 'Martin', 'Rodriguez', '540 Painter Ave', 'Whittier', 'California', '90893', '3235987511', '345678901'),
+    ('WF421', 'Winston', 'Franks','310 West Ave', 'Whittier', 'California', '90324', '4356758567', '569222856')"""
 
 cursor.execute(populatePerson)
 cursor.execute(populateDoctor)

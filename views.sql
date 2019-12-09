@@ -27,7 +27,7 @@ prescription for Panadol.
 */
 CREATE VIEW Pandol_Doctor
 AS
-SELECT p.FirstName, p.LastName
+SELECT p.FirstName, p.LastName, pr.PrescriptionName
 From Person AS p
 INNER JOIN Doctor AS d
 ON p.PersonID = d.DoctorID
@@ -40,8 +40,6 @@ ON pr.PrescriptionID = pp.PrescriptionID
 WHERE pr.PrescriptionName = "Pandol";
 
 
-
-
 /* Number 4: Create a view which shows the First Name and Last name of all doctors and their
 specialty’s.
 */
@@ -51,7 +49,7 @@ AS
 SELECT p.FirstName, p.LastName, spec.SpecialtyName
 FROM Person as p
 INNER JOIN DoctorSpecialty as docSpecial
-ON p.PersonID = docSpecial.DoctorID
+ON p.PersonID = docSpecial.DoctorID 
 INNER JOIN Specialty as spec 
 ON docSpecial.SpecialtyID = spec.SpecialtyID
 
@@ -63,9 +61,9 @@ CREATE VIEW Doctor_Specialities
 AS
 SELECT p.FirstName, p.LastName, spec.SpecialtyName
 FROM Person as p
-LEFT JOIN DoctorSpecialty as docSpecial
+JOIN DoctorSpecialty as docSpecial 
 ON p.PersonID = docSpecial.DoctorID
-LEFT JOIN Specialty as spec 
+JOIN Specialty as spec 
 ON docSpecial.SpecialtyID = spec.SpecialtyID
 
 /*Number 6: Create trigger on the DoctorSpecialty so that every time a doctor
