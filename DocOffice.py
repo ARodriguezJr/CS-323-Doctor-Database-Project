@@ -13,92 +13,158 @@ cursor.execute('USE DocOffice')
 
 
 # Queries for creating table
-createDoctor = """CREATE TABLE Doctors(
-  D_id            VARCHAR(6)        NOT NULL,
-  Fname           VARCHAR(15)       NOT NULL,
-  Lname           VARCHAR(15)       NOT NULL,
-  Speciality      VARCHAR(30),
-  PRIMARY KEY (D_id))"""
+createDoctor = """CREATE TABLE Doctor(
+  DoctorID              VARCHAR(6)          NOT NULL,
+  MedicalDegrees    VARCHAR(50)                 ,
+  PersonID          VARCHAR(6)          NOT NULL,
+  PRIMARY KEY (DoctorID))"""
 
-createPatients = """CREATE TABLE Patients(
-  P_id            VARCHAR(6)        NOT NULL,
-  Fname           VARCHAR(15)       NOT NULL,
-  Lname           VARCHAR(15)       NOT NULL,
-  Prim_Phone      VARCHAR(10)       NOT NULL,
-  Pat_doc_id      VARCHAR(6)        NOT NULL,
-  PRIMARY KEY (P_id),
-  FOREIGN KEY (Pat_doc_id) REFERENCES Doctors(D_id))"""
+createPatient = """CREATE TABLE Patient(
+  PatientID       VARCHAR(6)        NOT NULL,
+  PhoneNumber     VARCHAR(10)       NOT NULL,
+  DOB             DATE              NOT NULL,
+  PersonID        VARCHAR(6)        NOT NULL,
+  PRIMARY KEY (PatientID),
+  FOREIGN KEY (PersonID) REFERENCES Person(PersonID))"""
 
-createVisit = """CREATE TABLE Visits(
-  P_id            VARCHAR(6)         NOT NULL, 
-  D_id            VARCHAR(6)         NOT NULL,
+createPatientVisit = """CREATE TABLE PatientVisit(
+  VisitID         VARCHAR(6)         NOT NULL,
+  PatientID       VARCHAR(6)         NOT NULL,
+  DoctorID        VARCHAR(6)         NOT NULL,
   VisitDate       DATE               NOT NULL,
-  FOREIGN KEY (P_id) REFERENCES Patients(P_id),
-  FOREIGN KEY (D_id) REFERENCES Doctors(D_id))"""
+  DocNote         VARCHAR(140),
+  PRIMARY KEY (VisitID),
+  FOREIGN KEY (PatientID) REFERENCES Patient(PatientID),
+  FOREIGN KEY (DoctorID) REFERENCES Doctor(DoctorID))"""
 
-createPrescriptions = """CREATE TABLE Prescriptions(
-  P_id            VARCHAR(6)        NOT NULL,
-  D_id            VARCHAR(6)        NOT NULL,
-  Pres_name       VARCHAR(20)       NOT NULL,
-  FOREIGN KEY (P_id) REFERENCES Patients(P_id),
-  FOREIGN KEY (D_id) REFERENCES Doctors(D_id))"""
+createPrescription = """CREATE TABLE Prescription(
+  PrescriptionID        VARCHAR(6)        NOT NULL,
+  PrescriptionName      VARCHAR(20)       NOT NULL,
+  PRIMARY KEY (PrescriptionID))"""
 
-createTests = """CREATE TABLE Tests(
-  P_id            VARCHAR(6)        NOT NULL,
-  D_id            VARCHAR(6)        NOT NULL,
-  Test_name       VARCHAR(20)       NOT NULL,
-  FOREIGN KEY (P_id) REFERENCES Patients(P_id),
-  FOREIGN KEY (D_id) REFERENCES Doctors(D_id))"""
+createTest = """CREATE TABLE Test(
+  TestID          VARCHAR(6)        NOT NULL,
+  TestName        VARCHAR(20)       NOT NULL,
+  PRIMARY KEY (TestID))"""
+
+createPVisitTest = """CREATE TABLE PVisitTest(
+    VisitID     VARCHAR(6)      NOT NULL,
+    TestID      VARCHAR(6)      NOT NULL,
+    FOREIGN KEY (VisitID) REFERENCES PatientVisit(VisitID),
+    FOREIGN KEY (TestID) REFERENCES Test(TestID))"""
+
+createPVisitPrescription = """CREATE TABLE PVisitPrescription(
+    VisitID               VARCHAR(6)      NOT NULL,
+    PrescriptionID        VARCHAR(6)      NOT NULL,
+    FOREIGN KEY (VisitID) REFERENCES PatientVisit(VisitID),
+    FOREIGN KEY (PrescriptionID) REFERENCES Prescription(PrescriptionID))
+    """
+
+createDoctorSpecialty = """CREATE TABLE DoctorSpecialty(
+    DoctorID        VARCHAR(6)         NOT NULL,
+    SpecialtyID     VARCHAR(6)         NOT NULL,
+    FOREIGN KEY (DoctorID) REFERENCES Doctor(DoctorID),
+    FOREIGN KEY (SpecialtyID) REFERENCES Specialty(SpecialtyID))"""
+
+createSpecialty = """CREATE TABLE Specialty(
+    SpecialtyID     VARCHAR(6)      NOT NULL,
+    SpecialtyName   VARCHAR(20)     NOT NULL,
+    PRIMARY KEY (SpecialtyID))"""
+
+createPerson = """CREATE TABLE Person(
+    PersonID        VARCHAR(6)      NOT NULL,
+    FirstName       VARCHAR(15)     NOT NULL,
+    LastName        VARCHAR(15)     NOT NULL,
+    StreetAddress   VARCHAR(30)     NOT NULL,
+    City            VARCHAR(15)     NOT NULL,
+    State           VARCHAR(15)     NOT NULL,
+    ZIP             VARCHAR(5)      NOT NULL,
+    PhoneNumber     VARCHAR(10)     NOT NULL,
+    SSN             VARCHAR(9)      NOT NULL,
+    PRIMARY KEY (PersonID))"""
+
 
 
 # Creates tables in database
+cursor.execute(createPerson)
 cursor.execute(createDoctor)
-cursor.execute(createPatients)
-cursor.execute(createVisit)
-cursor.execute(createPrescriptions)
-cursor.execute(createTests)
+cursor.execute(createPatient)
+cursor.execute(createPrescription)
+cursor.execute(createTest)
+cursor.execute(createPatientVisit)
+cursor.execute(createSpecialty)
+cursor.execute(createDoctorSpecialty)
+cursor.execute(createPVisitPrescription)
+
 
 # Populate tables with dummy data
-populateDoctors = """INSERT INTO Doctors
+populateDoctor = """INSERT INTO Doctor
   VALUES
-    ('RO3283', 'Rob', 'Belkin', 'Pediactrics'),
-    ('AR3456', 'Alan', 'Rickman', 'Neurology'),
-    ('JR2857', 'James', 'Rodgers', 'Dermatology'),
-    ('TO3621', 'Tim', 'Turner', 'Radiology')"""
+    ('RO3283', 'Pediactrics', 'RO3283'),
+    ('AR3456', 'Neurology', 'AR3456'),
+    ('WF3421', '', 'WF3421')"""
 
-populatePatients = """INSERT INTO Patients
+populatePatient = """INSERT INTO Patient
   VALUES
-    ('RT3475', 'Rick', 'Toombs', '5626478976', 'AR3456'),
-    ('FY2927', 'Frank', 'Young', '5622341233', 'RO3283'),
-    ('JS9865', 'Juan', 'Sanchez','7144957542', 'TO3621'),
-    ('KS8476', 'Kyle', 'Silver', '3235987511', 'RO3283')"""
+    ('RM1234', '5626478976', '1959-03-10', 'RM1234'),
+    ('MR4567', '3235987511', '1929-09-10', 'MR4567')"""
 
-populateVisits = """INSERT INTO Visits
+populatePatientVisit = """INSERT INTO PatientVisit
   VALUES
-    ('FY2927', 'RO3283', '2019-03-10'),
-    ('KS8476', 'RO3283', '2019-04-17'),
-    ('JS9865', 'TO3621', '2019-10-02'),
-    ('RT3475', 'AR3456', '2019-11-23')"""
+    ('0000', 'RM1234', 'RO3283', '2019-04-12', 'In great condition'),
+    ('3333', 'MR4567', 'AR3456', '2019-04-20', 'Great')"""
 
-populatePrescriptions = """INSERT INTO Prescriptions
+populatePrescription = """INSERT INTO Prescription
   VALUES
-    ('FY2927', 'RO3283', 'Percocet'),
-    ('KS8476', 'RO3283', 'Albuterol'),
-    ('JS9865', 'TO3621', 'Panadol'),
-    ('RT3475', 'AR3456', 'Panadol')"""
+    ('Rad', 'Percocet'),
+    ('Alt', 'Pandol')"""
 
-populateTests = """INSERT INTO Tests
+populateTest = """INSERT INTO Test
   VALUES
-    ('FY2927', 'RO3283', 'X-Ray'),
-    ('KS8476', 'RO3283', 'Endoscopy'),
-    ('JS9865', 'TO3621', 'MRI'),
-    ('RT3475', 'AR3456', 'CAT Scan')"""
+    ('A12', 'Rad'),
+    ('K27', 'Alt')"""
 
-cursor.execute(populateDoctors)
-cursor.execute(populatePatients)
-cursor.execute(populateVisits)
-cursor.execute(populatePrescriptions)
-cursor.execute(populateTests)
+populatePVisitTest = """INSERT INTO PVisitTest
+  VALUES
+    ('0000', 'A12'),
+    ('3333', 'K27')"""
+
+populatePVisitPrescription = """INSERT INTO PVisitPrescription
+  VALUES
+    ('0000', 'Rad'),
+    ('3333', 'Alt')"""
+
+populateDoctorSpecialty = """INSERT INTO DoctorSpecialty
+  VALUES
+    ('RO3283', 'EYES'),
+    ('AR3456', 'MOUTH')"""
+
+populateSpecialty = """INSERT INTO Specialty
+  VALUES
+    ('EYES', 'Retina'),
+    ('MOUTH', 'Teeth')"""
+
+populatePerson = """INSERT INTO Person
+  VALUES
+    ('RO3283', 'Rob', 'Belkin', '800 State College', 'Fullerton', 'California', '90643', '4567345678', '328332830'),
+    ('AR3456', 'Alan', 'Rickman', '410 El Rancho', 'La Habra', 'California', '90631', '6264567007', '123456789'),
+    ('RM1234', 'Robert', 'Morris', '320 Shady Lane', 'Yorba Linda', 'California', '90123', '5626478976', '234567890'),
+    ('MR4567', 'Martin', 'Rodriguez', '540 Painter Ave', 'Whittier', 'California', '90893', '3235987511', '345678901'),
+    ('WF3421', 'Winston', 'Franks','310 West Ave', 'Whittier', 'California', '90324', '4356758567', '569222856')"""
+
+cursor.execute(populatePerson)
+cursor.execute(populateDoctor)
+cursor.execute(populatePatient)
+cursor.execute(populatePrescription)
+cursor.execute(populateTest)
+cursor.execute(populatePatientVisit)
+cursor.execute(populateSpecialty)
+cursor.execute(populateDoctorSpecialty)
+cursor.execute(populatePVisitPrescription)
+
+
+
+
 
 conn.commit()
 conn.close()
