@@ -1,0 +1,12 @@
+SELECT COUNT(*)
+FROM Person AS p
+INNER JOIN Patient AS pt
+ON pt.PersonID = p.PersonID
+WHERE City = "Fullerton"
+INNER JOIN PatientVisit AS pv
+ON pv.PatientID = pt.PatientID
+INNER JOIN PVisitPrescription AS pvp
+ON pvp.VisitID = pv.VisitID
+INNER JOIN Prescription AS pres
+ON pres.PrescriptionID = pvp.PrescriptionID
+WHERE PrescriptionName = 'Pandol'
