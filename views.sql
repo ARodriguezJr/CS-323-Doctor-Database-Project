@@ -57,13 +57,13 @@ ON docSpecial.SpecialtyID = spec.SpecialtyID
 doctors and their specialties ALSO include doctors who DO NOT have any
 specialty. */
 
-CREATE VIEW Doctor_Specialities
-AS
 SELECT p.FirstName, p.LastName, spec.SpecialtyName
-FROM Person as p
-JOIN DoctorSpecialty as docSpecial 
-ON p.PersonID = docSpecial.DoctorID
-JOIN Specialty as spec 
+FROM Doctor as d
+LEFT JOIN Person as p
+ON d.PersonID = p.PersonID
+LEFT JOIN DoctorSpecialty as docSpecial
+ON d.DoctorID = docSpecial.DoctorID
+LEFT JOIN Specialty as spec 
 ON docSpecial.SpecialtyID = spec.SpecialtyID
 
 /*Number 6: Create trigger on the DoctorSpecialty so that every time a doctor
