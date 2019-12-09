@@ -27,7 +27,7 @@ prescription for Panadol.
 */
 CREATE VIEW Pandol_Doctor
 AS
-SELECT p.FirstName, pLastName
+SELECT p.FirstName, p.LastName
 From Person AS p
 INNER JOIN Doctor AS d
 ON p.PersonID = d.DoctorID
@@ -48,15 +48,25 @@ specialty’s.
 
 CREATE VIEW Doctor_Specialities
 AS
-SELECT 
-
+SELECT p.FirstName, p.LastName, spec.SpecialtyName
+FROM Person as p
+INNER JOIN DoctorSpecialty as docSpecial
+ON p.PersonID = docSpecial.DoctorID
+INNER JOIN Specialty as spec 
+ON docSpecial.SpecialtyID = spec.SpecialtyID
 
 /*Number 5: Modify the view created in Q4 to show the First Name and Last name of all
 doctors and their specialties ALSO include doctors who DO NOT have any
 specialty. */
 
-
-
+CREATE VIEW Doctor_Specialities
+AS
+SELECT p.FirstName, p.LastName, spec.SpecialtyName
+FROM Person as p
+LEFT JOIN DoctorSpecialty as docSpecial
+ON p.PersonID = docSpecial.DoctorID
+LEFT JOIN Specialty as spec 
+ON docSpecial.SpecialtyID = spec.SpecialtyID
 
 /*Number 6: Create trigger on the DoctorSpecialty so that every time a doctor
             specialty is updated or added, a new entry is made in the audit table.
@@ -84,11 +94,6 @@ END;
                         backups.
 
 */
-
-
-
-
-
-/* Extra Credit:
-*/
+BACKUP DATABASE DocOffice
+TO DISK = '"C:\Users\'
  

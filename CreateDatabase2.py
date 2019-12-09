@@ -101,12 +101,28 @@ cursor.execute(createDoctorSpecialty)
 
 
 # Populate tables with dummy data
+populatePerson = """INSERT INTO Person
+  VALUES
+    ('RB3283', 'Rob', 'Belkin', '12345 East St', 'Los Angeles', 'California', '90210', '1234567890', '856218509'),
+    ('AR3456', 'Alan', 'Rickman', '34567 West St', 'Whittier', 'California', '90242', '3234565867', '475991234'),
+    ('JR2857', 'James', 'Ramos', '57683 North St', 'Los Angeles', 'California', '90210', '5768219067', '968444756')"""
+
 populateDoctor = """INSERT INTO Doctor
   VALUES 
-    ('RB3283', 'Neurology', 'RB1234'),
-    ('AR3456', 'Biology', 'AR4586'),
-    ('JR2857', 'BioChemistry', 'JR3845'),
+    ('RB3283', 'Neurology', 'RB3283'),
+    ('AR3456', 'Biology', 'AR3456'),
+    ('JR2857', 'BioChemistry', 'JR2857'),
     ('TO3621', 'Organic Chemistry', 'TO9876')"""
+
+populateSpecialty = """INSERT INTO Specialty
+  VALUES
+    ('NR3485', 'Neuro Research'),
+    ('BE4567', 'Bio Engineering')"""
+
+populateDoctorSpecialty = """INSERT INTO DoctorSpecialty
+  VALUES
+    ('RB3283', 'NR3485'),
+    ('JR2857', 'BE4567')"""
 
 #populateDoctor = """INSERT INTO Doctor
 #  VALUES
@@ -136,10 +152,13 @@ populatePrescription = """INSERT INTO Prescriptions
     ('JS9865', 'TO3621', 'Panadol'),
     ('RT3475', 'AR3456', 'Panadol')"""
 
+cursor.execute(populatePerson)
 cursor.execute(populateDoctor)
 #cursor.execute(populatePatient)
 #cursor.execute(populateVisit)
 #cursor.execute(populatePrescription)
+cursor.execute(populateSpecialty)
+cursor.execute(populateDoctorSpecialty)
 
 conn.commit()
 conn.close()
